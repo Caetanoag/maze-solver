@@ -1,12 +1,12 @@
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
+import { LADO_QUADRADO, PORCENTAGEM } from "./vars.js";
 
-const LINHAS = 20;
-const COLUNAS = 20;
-const LADO = 30;
-const PERCENTUAL = 0.05;
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-let grade = [];
+const LADO = LADO_QUADRADO;
+const PERCENTUAL = PORCENTAGEM;
+
+const grade = [];
 for (let quantidade = 0; quantidade < LINHAS * COLUNAS; quantidade++) {
 	grade.push({
 		visitada: false,
@@ -14,16 +14,16 @@ for (let quantidade = 0; quantidade < LINHAS * COLUNAS; quantidade++) {
 	});
 }
 
-let pilha = [];
+const pilha = [];
 let celula = 0;
 grade[celula].visitada = true;
 for (let quantidade = 1; quantidade < LINHAS * COLUNAS; ) {
-	let vizinhos = [];
+	const vizinhos = [];
 	for (let direcao = 0; direcao < 4; direcao++) {
-		let x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
-		let y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
+		const x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
+		const y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
 		if (x >= 0 && x < COLUNAS && y >= 0 && y < LINHAS) {
-			let vizinho = y * COLUNAS + x;
+			const vizinho = y * COLUNAS + x;
 			if (!grade[vizinho].visitada) {
 				vizinhos.push(vizinho);
 			}
@@ -31,9 +31,9 @@ for (let quantidade = 1; quantidade < LINHAS * COLUNAS; ) {
 	}
 	if (vizinhos.length > 0) {
 		pilha.push(celula);
-		let vizinho = vizinhos[Math.floor(Math.random() * vizinhos.length)];
-		let diferenca = vizinho - celula;
-		let direcao =
+		const vizinho = vizinhos[Math.floor(Math.random() * vizinhos.length)];
+		const diferenca = vizinho - celula;
+		const direcao =
 			1 +
 			(diferenca - (diferenca % COLUNAS)) / COLUNAS +
 			(diferenca % COLUNAS) ** 2 -
@@ -55,10 +55,10 @@ for (
 	quantidade > 0;
 	quantidade--
 ) {
-	let celula = Math.floor(Math.random() * LINHAS * COLUNAS);
-	let direcao = Math.floor(Math.random() * 4);
-	let x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
-	let y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
+	const celula = Math.floor(Math.random() * LINHAS * COLUNAS);
+	const direcao = Math.floor(Math.random() * 4);
+	const x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
+	const y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
 	if (x >= 0 && x < COLUNAS && y >= 0 && y < LINHAS) {
 		grade[celula].paredes[direcao] = grade[y * COLUNAS + x].paredes[
 			(direcao + 2) % 4
@@ -76,8 +76,8 @@ function desenharLinha(x1, y1, x2, y2) {
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = "black";
 for (let celula = 0; celula < LINHAS * COLUNAS; celula++) {
-	let x = celula % COLUNAS;
-	let y = Math.floor(celula / COLUNAS);
+	const x = celula % COLUNAS;
+	const y = Math.floor(celula / COLUNAS);
 	if (grade[celula].paredes[0]) {
 		desenharLinha(x * LADO, y * LADO, x * LADO + LADO, y * LADO);
 	}
