@@ -1,8 +1,10 @@
-import { LADO_QUADRADO, PORCENTAGEM } from "./vars.js";
+import { LINHAS, COLUNAS, LADO_QUADRADO, PORCENTAGEM } from "./vars.js";
 
-const canvas = document.getElementById("canvas");
+const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+canvas.width = LADO_QUADRADO*COLUNAS*1.2;
+canvas.height = LADO_QUADRADO*LINHAS*1.2;
 const LADO = LADO_QUADRADO;
 const PERCENTUAL = PORCENTAGEM;
 
