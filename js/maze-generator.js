@@ -1,10 +1,10 @@
-import { LINHAS, COLUNAS, LADO_QUADRADO, PORCENTAGEM } from "./vars.js";
+import { COLUNAS, LADO_QUADRADO, LINHAS, PORCENTAGEM } from "./vars.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = LADO_QUADRADO*COLUNAS*1.2;
-canvas.height = LADO_QUADRADO*LINHAS*1.2;
+canvas.width = LADO_QUADRADO * COLUNAS * 1.2;
+canvas.height = LADO_QUADRADO * LINHAS * 1.2;
 const LADO = LADO_QUADRADO;
 const PERCENTUAL = PORCENTAGEM;
 
@@ -23,7 +23,8 @@ for (let quantidade = 1; quantidade < LINHAS * COLUNAS; ) {
 	const vizinhos = [];
 	for (let direcao = 0; direcao < 4; direcao++) {
 		const x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
-		const y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
+		const y =
+			Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
 		if (x >= 0 && x < COLUNAS && y >= 0 && y < LINHAS) {
 			const vizinho = y * COLUNAS + x;
 			if (!grade[vizinho].visitada) {
