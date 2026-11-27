@@ -1,10 +1,12 @@
 //heap é um array de [prioridade, item], ele pega rapidamente o menor ou o maior elemento de um array, mesmo com inserções constantes
 
 //insere um item no heap e depois reorganiza o array, pois
-function heapInserir(heap, item, prioridade) { //heap == array; item == número da célula; prioridade == ordena a distância
+function heapInserir(heap, item, prioridade) {
+	//heap == array; item == número da célula; prioridade == ordena a distância
 	heap.push([prioridade, item]); //célula tal com distância tal no fim do labirinto
 	let i = heap.length - 1;
-	while (i > 0) { //enqunto não ir pro ínicio
+	while (i > 0) {
+		//enqunto não ir pro ínicio
 		const pai = (i - 1) >> 1;
 		if (heap[pai][0] <= heap[i][0]) break;
 		[heap[pai], heap[i]] = [heap[i], heap[pai]];
@@ -37,7 +39,6 @@ function custoMovimento() {
 	return 1;
 }
 
-
 export function dijkstra(grade, linhas, colunas, inicio, fim) {
 	const total = linhas * colunas;
 	const distancia = new Array(total).fill(Infinity);
@@ -57,7 +58,8 @@ export function dijkstra(grade, linhas, colunas, inicio, fim) {
 			if (grade[atual].paredes[direcao]) continue; // parede bloqueando
 
 			const x = (atual % colunas) + (direcao % 2) * (2 - direcao);
-			const y = Math.floor(atual / colunas) + ((direcao + 1) % 2) * (direcao - 1);
+			const y =
+				Math.floor(atual / colunas) + ((direcao + 1) % 2) * (direcao - 1);
 			if (x < 0 || x >= colunas || y < 0 || y >= linhas) continue;
 
 			const vizinho = y * colunas + x;
@@ -80,7 +82,6 @@ export function dijkstra(grade, linhas, colunas, inicio, fim) {
 
 	return { custo: distancia[fim], caminho };
 }
-
 
 export function desenharCaminho(ctx, caminho, colunas, lado) {
 	if (caminho.length === 0) return;
