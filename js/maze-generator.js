@@ -84,6 +84,35 @@ export function gerarLabirinto() {
 		}
 	}
 
+	const bordas = [];
+	for (let i = 0; i < config.LINHAS * config.COLUNAS; i++) {
+		const x = i % config.COLUNAS;
+		const y = Math.floor(i / config.COLUNAS);
+		if (
+			x === 0 ||
+			x === config.COLUNAS - 1 ||
+			y === 0 ||
+			y === config.LINHAS - 1
+		) {
+			bordas.push(i);
+		}
+	}
+
+	const INICIO = bordas[Math.floor(Math.random() * bordas.length)];
+	let FIM = INICIO;
+	while (FIM === INICIO) {
+		FIM = bordas[Math.floor(Math.random() * bordas.length)];
+	}
+
+	for (const cel of [INICIO, FIM]) {
+		const x = cel % config.COLUNAS;
+		const y = Math.floor(cel / config.COLUNAS);
+		if (y === 0) grade[cel].paredes[0] = false;
+		else if (x === config.COLUNAS - 1) grade[cel].paredes[1] = false;
+		else if (y === config.LINHAS - 1) grade[cel].paredes[2] = false;
+		else if (x === 0) grade[cel].paredes[3] = false;
+	}
+
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle = "black";
 	for (let celula = 0; celula < config.LINHAS * config.COLUNAS; celula++) {
@@ -111,22 +140,6 @@ export function gerarLabirinto() {
 		if (grade[celula].paredes[3]) {
 			desenharLinha(x * LADO, y * LADO + LADO, x * LADO, y * LADO);
 		}
-	}
-
-	// Início = canto superior esquerdo, fim = canto inferior direito
-	const bordas = [];
-	for (let i = 0; i < LINHAS * COLUNAS; i++) {
-		const x = i % COLUNAS;
-		const y = Math.floor(i / COLUNAS);
-		if (x === 0 || x === COLUNAS - 1 || y === 0 || y === LINHAS - 1) {
-			bordas.push(i);
-		}
-	}
-
-	const INICIO = bordas[Math.floor(Math.random() * bordas.length)];
-	let FIM = INICIO;
-	while (FIM === INICIO) {
-		FIM = bordas[Math.floor(Math.random() * bordas.length)];
 	}
 
 	const resultado = dijkstra(grade, config.LINHAS, config.COLUNAS, INICIO, FIM);
