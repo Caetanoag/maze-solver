@@ -99,10 +99,19 @@ export function gerarLabirinto() {
 	}
 
 	const INICIO = bordas[Math.floor(Math.random() * bordas.length)];
-	let FIM = INICIO;
-	while (FIM === INICIO) {
+	const distMinima = Math.floor((config.LINHAS + config.COLUNAS) / 2);
+
+	let FIM;
+	do {
 		FIM = bordas[Math.floor(Math.random() * bordas.length)];
-	}
+		const dist =
+			Math.abs((INICIO % config.COLUNAS) - (FIM % config.COLUNAS)) +
+			Math.abs(
+				Math.floor(INICIO / config.COLUNAS) - Math.floor(FIM / config.COLUNAS),
+			);
+		if (dist >= distMinima) break;
+	// biome-ignore lint/correctness/noConstantCondition: <explanation>
+	} while (true);
 
 	for (const cel of [INICIO, FIM]) {
 		const x = cel % config.COLUNAS;
