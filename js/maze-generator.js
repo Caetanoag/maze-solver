@@ -1,4 +1,5 @@
-import { COLUNAS, LADO_QUADRADO, LINHAS, PORCENTAGEM } from "./vars.js";
+import { LINHAS, COLUNAS, LADO_QUADRADO, PORCENTAGEM } from "./vars.js";
+import { dijkstra, desenharCaminho } from "./resolver.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -63,9 +64,8 @@ for (
 	const x = (celula % COLUNAS) + (direcao % 2) * (2 - direcao);
 	const y = Math.floor(celula / COLUNAS) + ((direcao + 1) % 2) * (direcao - 1);
 	if (x >= 0 && x < COLUNAS && y >= 0 && y < LINHAS) {
-		grade[celula].paredes[direcao] = grade[y * COLUNAS + x].paredes[
-			(direcao + 2) % 4
-		] = Math.floor(Math.random() * 2);
+		grade[celula].paredes[direcao] = false;
+		grade[y * COLUNAS + x].paredes[(direcao + 2) % 4] = false;
 	}
 }
 
@@ -93,4 +93,27 @@ for (let celula = 0; celula < LINHAS * COLUNAS; celula++) {
 	if (grade[celula].paredes[3]) {
 		desenharLinha(x * LADO, y * LADO + LADO, x * LADO, y * LADO);
 	}
+}
+const bordas = [];
+for (let i = 0; i < LINHAS * COLUNAS; i++) {
+	const x = i % COLUNAS;
+	const y = Math.floor(i / COLUNAS);
+	if (x === 0 || x === COLUNAS - 1 || y === 0 || y === LINHAS - 1) {
+		bordas.push(i);
+	}
+}
+
+const INICIO = bordas[Math.floor(Math.random() * bordas.length)];
+let FIM = INICIO;
+while (FIM === INICIO) {
+	FIM = bordas[Math.floor(Math.random() * bordas.length)];
+}
+const resultado = dijkstra(grade, LINHAS, COLUNAS, INICIO, FIM);
+
+if (resultado.custo === Infinity) {
+	console.log("Não existe caminho entre o início e o fim.");
+} else {
+	console.log(`Menor custo: ${resultado.custo}`);
+	console.log(`Células no caminho: ${resultado.caminho.length}`);
+	desenharCaminho(ctx, resultado.caminho, COLUNAS, LADO);
 }
