@@ -110,7 +110,7 @@ export function gerarLabirinto() {
 				Math.floor(INICIO / config.COLUNAS) - Math.floor(FIM / config.COLUNAS),
 			);
 		if (dist >= distMinima) break;
-	// biome-ignore lint/correctness/noConstantCondition: <explanation>
+	// biome-ignore lint/correctness/noConstantCondition: O loop é proposital para garantir que o fim seja suficientemente distante do início
 	} while (true);
 
 	for (const cel of [INICIO, FIM]) {
