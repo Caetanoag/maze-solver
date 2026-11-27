@@ -1,1 +1,1 @@
-import "./maze-generator.js"
+import "./maze-generator.js";
